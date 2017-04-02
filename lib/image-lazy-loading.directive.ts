@@ -4,11 +4,11 @@ import { Directive, ElementRef, Renderer2, OnInit, OnDestroy } from '@angular/co
   selector: '[imageLazyLoading]'
 })
 export class ImageLazyLoadingDirective implements OnInit, OnDestroy {
-  private rootElement;
-  private renderer;
-  private currentIntersectionObserver;
-  private imageElements = [];
-  private interactionObserverSupported = false;
+  private rootElement:HTMLElement;
+  private renderer:Renderer2;
+  private currentIntersectionObserver:IntersectionObserverEntry;
+  private imageElements:HTMLElement[] = [];
+  private interactionObserverSupported:Boolean = false;
   private eventsAlreadyRegistered = false;
   private registeredEventListeners = {
     contentLoaded: null,
@@ -37,7 +37,7 @@ export class ImageLazyLoadingDirective implements OnInit, OnDestroy {
     this.__unregisterScrollEventFallback();
   }
 
-  __getAllImages(pageNode) {
+  __getAllImages(pageNode:HTMLElement) {
     return pageNode.querySelectorAll('img[data-src]')
   }
 
@@ -95,7 +95,7 @@ export class ImageLazyLoadingDirective implements OnInit, OnDestroy {
     this.imageElements = this.__getAllImages(this.rootElement);
   }
 
-  __isElementInViewport(domElement) {
+  __isElementInViewport(domElement:HTMLElement) {
     var rect = domElement.getBoundingClientRect();
 
     return (
@@ -106,7 +106,7 @@ export class ImageLazyLoadingDirective implements OnInit, OnDestroy {
     );
   }
 
-  __onImageAppearsInViewport(image) {
+  __onImageAppearsInViewport(image:HTMLElement) {
     this.renderer.setAttribute(image.target, 'src', image.target.dataset.src);
     this.renderer.removeAttribute(image.target, 'data-src');
     

@@ -1,0 +1,41 @@
+{
+  "name": "angular-image-lazy-load",
+  "version": "1.0.0",
+  "description": "Easy and lightweight library to lazy load images inside your website",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesusbotella/angular-image-lazy-load.git"
+  },
+  "keywords": [
+    "angular2",
+    "lazy",
+    "load",
+    "lazy-load",
+    "images"
+  ],
+  "author": "Jesús Botella",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jesusbotella/angular-image-lazy-load/issues"
+  },
+  "homepage": "https://github.com/jesusbotella/angular-image-lazy-load#readme",
+  "devDependencies": {
+    "@angular/common": "^4.0.1",
+    "@angular/core": "^4.0.1",
+    "rxjs": "^5.2.1-smooth",
+    "typescript": "^2.2.2",
+    "typings": "^2.1.0",
+    "zone.js": "^0.8.5"
+  },
+  "peerDependencies": {
+    "@angular/common": "^2.0.0-rc.0",
+    "@angular/compiler": "^2.0.0-rc.0",
+    "@angular/core": "^2.0.0-rc.0",
+    "@angular/platform-browser": "^2.0.0-rc.0",
+    "@angular/platform-browser-dynamic": "^2.0.0-rc.0"
+  }
+}
