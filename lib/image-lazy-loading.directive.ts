@@ -82,7 +82,7 @@ export class ImageLazyLoadingDirective {
       this.intersectionObserverConfig instanceof Object ? this.intersectionObserver : null
     );
 
-    return Promise.resolve(this.intersectionObserver);
+    return this.intersectionObserver;
   }
 
   onIntersectionChange(image: any) {
