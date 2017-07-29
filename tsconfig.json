@@ -5,13 +5,13 @@
     "target": "es5",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
     "declaration": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./dist"
   },
   "files": [
-    "./main.ts",
+    "./lib/main.ts",
     "./lib/image-lazy-loading.module.ts",
     "./lib/image-lazy-loading.directive.ts"
   ]
