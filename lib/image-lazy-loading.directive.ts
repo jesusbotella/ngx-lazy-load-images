@@ -1,118 +1,113 @@
-import { Directive, ElementRef, Renderer2, OnInit, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Renderer2, Input } from '@angular/core';
 
+/**
+ * Angular Lazy Loading Images Directive
+ *
+ * Directive to easily allow to lazy load the images
+ * that your application/PWA contains using MutationObserver
+ * and the praised IntersectionObserver.
+ *
+ * How does it work?
+ *
+ * You only need to include the directive in the container node
+ * that holds all the images you want to lazy load. It supports
+ * <img> tags, as well as background images in any HTML node.
+ *
+ * Example
+ *
+ * <div class="container" image-lazy-load>
+ *  <img attr.data-src="img/logo.png">
+ *  <div class="thumbnail" attr.data-background-src="{{ background_image }}"></div>
+ * </div>
+ */
 @Directive({
-  selector: '[imageLazyLoading]'
+  selector: '[image-lazy-load]' // Attribute selector
 })
-export class ImageLazyLoadingDirective implements OnInit, OnDestroy {
-  private rootElement:HTMLElement;
-  private renderer:Renderer2;
-  private currentIntersectionObserver:IntersectionObserverEntry;
-  private imageElements:HTMLElement[] = [];
-  private interactionObserverSupported:Boolean = false;
-  private eventsAlreadyRegistered = false;
-  private registeredEventListeners = {
-    contentLoaded: null,
-    pageLoad: null,
-    resize: null,
-    scroll: null
-  };
+export class ImageLazyLoadingDirective {
+
+  @Input('image-lazy-load') intersectionObserverConfig: Object;
+
+  private intersectionObserverSupported: Boolean = false;
+  private intersectionObserver: IntersectionObserver;
+  private rootElement: HTMLElement;
+  private renderer: Renderer2;
 
   constructor(element: ElementRef, renderer: Renderer2) {
-    this.interactionObserverSupported = Boolean(window['IntersectionObserver']);
+    this.intersectionObserverSupported = Boolean(window['IntersectionObserver']);
     this.rootElement = element.nativeElement;
     this.renderer = renderer;
   }
 
   ngOnInit() {
-    this.imageElements = this.__getAllImages(this.rootElement);
-  
-    if (this.interactionObserverSupported) {
-      this.__registerIntersectionObserver()
-    } else {
-      this.__registerScrollEventFallback();
+    this.registerIntersectionObserver();
+
+    this.observeDOMChanges(this.rootElement, () => {
+      const imagesFoundInDOM = this.getAllImages(this.rootElement);
+
+      // Why can't I use rest operator instead forEach?
+      // this.intersectionObserver.observe(...imagesFoundInDOM);
+
+      imagesFoundInDOM.forEach(element => this.intersectionObserver.observe(element));
+    });
+  }
+
+  observeDOMChanges(rootElement: HTMLElement, onChange: Function) {
+    // Create a Mutation Observer instance
+    const observer = new MutationObserver(mutations => onChange(mutations));
+
+    // Observer Configuration
+    const observerConfig = {
+      childList: true,
+      characterData: true
+    };
+
+    // Observe Directive DOM Node
+    observer.observe(rootElement, observerConfig);
+
+    return observer;
+  }
+
+  getAllImages(pageNode: HTMLElement) {
+    return Array.from(pageNode.querySelectorAll('img[data-src], [data-background-src]'));
+  }
+
+  registerIntersectionObserver() {
+    if (!this.intersectionObserverSupported) {
+      // Load polyfill for unsupported Browsers
+      console.error('IntersectionObserver is not supported in this browser');
     }
-  }
 
-  ngOnDestroy() {
-    this.__unregisterScrollEventFallback();
-  }
-
-  __getAllImages(pageNode:HTMLElement) {
-    return pageNode.querySelectorAll('img[data-src]')
-  }
-
-  __registerIntersectionObserver() {
-    if (!this.imageElements.length) {
-      this.__unregisterScrollEventFallback();
-      return console.warn('Image Lazy Loading: You are not targeting any image to lazy load');
-    }
-
-    this.currentIntersectionObserver = new IntersectionObserver(
-      images => images.forEach(image => this.__onImageAppearsInViewport(image))
+    this.intersectionObserver = new IntersectionObserver(
+      images => images.forEach(image => this.onIntersectionChange(image)),
+      this.intersectionObserverConfig instanceof Object ? this.intersectionObserver : null
     );
 
-    this.currentIntersectionObserver.observe(...this.imageElements);
+    return Promise.resolve(this.intersectionObserver);
   }
 
-  __registerScrollEventFallback() {
-    if (this.eventsAlreadyRegistered) return;
-
-    // Yeah, too much event listeners :(
-    let callbackFunction = () => this.__pageChangedCallback();
-    
-    this.registeredEventListeners.contentLoaded = this.renderer.listen('window', 'DOMContentLoaded', callbackFunction)
-    this.registeredEventListeners.pageLoad = this.renderer.listen('window', 'load', callbackFunction);
-    this.registeredEventListeners.resize = this.renderer.listen('window', 'resize', callbackFunction);
-    this.registeredEventListeners.scroll = this.renderer.listen('window', 'scroll', callbackFunction);
-
-    this.eventsAlreadyRegistered = true;
-  }
-
-  __unregisterScrollEventFallback() {
-    if (!this.eventsAlreadyRegistered) return;
-  
-    this.registeredEventListeners.contentLoaded();
-    this.registeredEventListeners.pageLoad();
-    this.registeredEventListeners.resize();
-    this.registeredEventListeners.scroll();
-
-    this.eventsAlreadyRegistered = false;
-  }
-
-  __pageChangedCallback() {
-    if (!this.imageElements.length) {
-      return this.__unregisterScrollEventFallback();
+  onIntersectionChange(image: any) {
+    if (!image.isIntersecting) {
+      return;
     }
-    
-    this.imageElements.forEach(
-      (image, imageIndex) => {
-        if (!this.__isElementInViewport(image)) return;
 
-        this.__onImageAppearsInViewport(image);
-      }
-    );
-
-    this.imageElements = this.__getAllImages(this.rootElement);
+    this.onImageAppearsInViewport(image.target);
   }
 
-  __isElementInViewport(domElement:HTMLElement) {
-    var rect = domElement.getBoundingClientRect();
+  onImageAppearsInViewport(image: any) {
+    if (image.dataset.src) {
+      this.renderer.setAttribute(image, 'src', image.dataset.src);
+      this.renderer.removeAttribute(image, 'data-src');
+    }
 
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= window.innerHeight &&
-        rect.right <= window.innerWidth
-    );
-  }
+    if (image.dataset['backgroundSrc']) {
+      this.renderer.setStyle(image, 'background-image', `url(${image.dataset['backgroundSrc']})`);
+      this.renderer.removeAttribute(image, 'data-background-src');
+    }
 
-  __onImageAppearsInViewport(image:HTMLElement) {
-    this.renderer.setAttribute(image.target, 'src', image.target.dataset.src);
-    this.renderer.removeAttribute(image.target, 'data-src');
-    
     // Stop observing the current target
-    if (this.currentIntersectionObserver) {
-      this.currentIntersectionObserver.unobserve(image.target);
+    if (this.intersectionObserver) {
+      this.intersectionObserver.unobserve(image);
     }
   }
+
 }
