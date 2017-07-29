@@ -42,33 +42,13 @@ export class ImageLazyLoadingDirective {
     this.registerIntersectionObserver();
 
     this.observeDOMChanges(this.rootElement, () => {
-      const imagesFoundInDOM = this.getAllImages(this.rootElement);
+      const imagesFoundInDOM = this.getAllImagesToLazyLoad(this.rootElement);
 
       // Why can't I use rest operator instead forEach?
       // this.intersectionObserver.observe(...imagesFoundInDOM);
 
       imagesFoundInDOM.forEach(element => this.intersectionObserver.observe(element));
     });
-  }
-
-  observeDOMChanges(rootElement: HTMLElement, onChange: Function) {
-    // Create a Mutation Observer instance
-    const observer = new MutationObserver(mutations => onChange(mutations));
-
-    // Observer Configuration
-    const observerConfig = {
-      childList: true,
-      characterData: true
-    };
-
-    // Observe Directive DOM Node
-    observer.observe(rootElement, observerConfig);
-
-    return observer;
-  }
-
-  getAllImages(pageNode: HTMLElement) {
-    return Array.from(pageNode.querySelectorAll('img[data-src], [data-background-src]'));
   }
 
   registerIntersectionObserver() {
@@ -89,6 +69,27 @@ export class ImageLazyLoadingDirective {
     );
 
     return this.intersectionObserver;
+  }
+
+  observeDOMChanges(rootElement: HTMLElement, onChange: Function) {
+    // Create a Mutation Observer instance
+    const observer = new MutationObserver(mutations => onChange(mutations));
+
+    // Observer Configuration
+    const observerConfig = {
+      attributes: true,
+      characterData: true,
+      childList: true
+    };
+
+    // Observe Directive DOM Node
+    observer.observe(rootElement, observerConfig);
+
+    return observer;
+  }
+
+  getAllImagesToLazyLoad(pageNode: HTMLElement) {
+    return Array.from(pageNode.querySelectorAll('img[data-src], [data-background-src]'));
   }
 
   onIntersectionChange(image: any) {
