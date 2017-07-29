@@ -100,7 +100,7 @@ export class ImageLazyLoadingDirective {
     }
 
     if (image.dataset.backgroundSrc) {
-      this.renderer.setStyle(image, 'background-image', `url(${image.dataset['backgroundSrc']})`);
+      this.renderer.setStyle(image, 'background-image', `url(${image.dataset.backgroundSrc})`);
       this.renderer.removeAttribute(image, 'data-background-src');
     }
 
