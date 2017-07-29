@@ -75,11 +75,17 @@ export class ImageLazyLoadingDirective {
     if (!this.intersectionObserverSupported) {
       // Load polyfill for unsupported Browsers
       console.error('IntersectionObserver is not supported in this browser');
+
+      // Insection Observer Polyfill
+      // https://github.com/WICG/IntersectionObserver/tree/gh-pages/polyfill
+      // The browser hangs up when importing this code, don't know why
+
+      // https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver
     }
 
     this.intersectionObserver = new IntersectionObserver(
       images => images.forEach(image => this.onIntersectionChange(image)),
-      this.intersectionObserverConfig instanceof Object ? this.intersectionObserver : null
+      this.intersectionObserverConfig instanceof Object ? this.intersectionObserverConfig : null
     );
 
     return this.intersectionObserver;
@@ -109,5 +115,4 @@ export class ImageLazyLoadingDirective {
       this.intersectionObserver.unobserve(image);
     }
   }
-
 }
