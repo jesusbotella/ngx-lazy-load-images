@@ -51,6 +51,7 @@ Thumbs.db
 __build__/**
 .webpack.json
 dist/
+out-tsc/
 
 # Doc #
 /doc/
