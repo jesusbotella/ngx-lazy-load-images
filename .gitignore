@@ -64,6 +64,8 @@ out-tsc/
 *.js
 !karma.conf.js
 !karma-test-shim.js
+!build.js
+!inline-resources.js
 *.map
 *.d.ts
 typings
