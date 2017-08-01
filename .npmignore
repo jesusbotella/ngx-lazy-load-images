@@ -1,5 +1,7 @@
 .DS_Store
 
+package-lock.json
+
 # Logs
 logs
 *.log
@@ -44,7 +46,6 @@ Thumbs.db
 /tsd_typings/
 
 # Dist #
-/dist
 /public/__build__/
 /src/*/__build__/
 __build__/**

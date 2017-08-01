@@ -1,18 +1,30 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "module": "commonjs",
     "target": "es5",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "declaration": true,
+    "module": "es2015",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./dist"
+    "inlineSources": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "skipLibCheck": true,
+    "stripInternal": true,
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ]
   },
-  "files": [
-    "./lib/main.ts",
-    "./lib/image-lazy-loading.module.ts",
-    "./lib/image-lazy-loading.directive.ts"
+  "paths": {
+    "@angular/*": ["/node_modules/@angular/*"]
+  },
+  "typeRoots": [
+    "../node_modules/@types"
+  ],
+  "types": [
+    "angular"
   ]
 }

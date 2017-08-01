@@ -15,25 +15,25 @@ import { Directive, ElementRef, Renderer2, Input } from '@angular/core';
  *
  * Example
  *
- * <div class="container" image-lazy-load>
+ * <div class="container" ngx-lazy-load>
  *  <img attr.data-src="img/logo.png">
  *  <div class="thumbnail" attr.data-background-src="{{ background_image }}"></div>
  * </div>
  */
 @Directive({
-  selector: '[image-lazy-load]' // Attribute selector
+  selector: '[ngx-lazy-load]' // Attribute selector
 })
-export class ImageLazyLoadingDirective {
+export class LazyLoadingDirective {
 
-  @Input('image-lazy-load') intersectionObserverConfig: Object;
+  @Input('ngx-lazy-load') intersectionObserverConfig: Object;
 
-  private intersectionObserverSupported: Boolean = false;
-  private intersectionObserver: IntersectionObserver;
-  private rootElement: HTMLElement;
-  private renderer: Renderer2;
+  intersectionObserverSupported: Boolean = false;
+  intersectionObserver: IntersectionObserver;
+  rootElement: HTMLElement;
+  renderer: Renderer2;
 
   constructor(element: ElementRef, renderer: Renderer2) {
-    this.intersectionObserverSupported = Boolean(window['IntersectionObserver']);
+    this.intersectionObserverSupported = 'IntersectionObserver' in window;
     this.rootElement = element.nativeElement;
     this.renderer = renderer;
   }
@@ -47,7 +47,7 @@ export class ImageLazyLoadingDirective {
       // Why can't I use rest operator instead forEach?
       // this.intersectionObserver.observe(...imagesFoundInDOM);
 
-      imagesFoundInDOM.forEach(element => this.intersectionObserver.observe(element));
+      imagesFoundInDOM.forEach((element: HTMLElement) => this.intersectionObserver.observe(element));
     });
   }
 
@@ -65,7 +65,7 @@ export class ImageLazyLoadingDirective {
 
     this.intersectionObserver = new IntersectionObserver(
       images => images.forEach(image => this.onIntersectionChange(image)),
-      this.intersectionObserverConfig instanceof Object ? this.intersectionObserverConfig : null
+      this.intersectionObserverConfig instanceof Object ? this.intersectionObserverConfig : undefined
     );
 
     return this.intersectionObserver;
@@ -89,7 +89,14 @@ export class ImageLazyLoadingDirective {
   }
 
   getAllImagesToLazyLoad(pageNode: HTMLElement) {
-    return Array.from(pageNode.querySelectorAll('img[data-src], [data-background-src]'));
+    let images = [];
+    let imagesToLazyLoad = pageNode.querySelectorAll('img[data-src], [data-background-src]');
+
+    for (let i = 0; i < imagesToLazyLoad.length; i++) {
+      images.push(imagesToLazyLoad[i]);
+    }
+
+    return images;
   }
 
   onIntersectionChange(image: any) {

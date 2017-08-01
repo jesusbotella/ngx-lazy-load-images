@@ -1,5 +1,7 @@
 .DS_Store
 
+package-lock.json
+
 # Logs
 logs
 *.log
@@ -48,6 +50,7 @@ Thumbs.db
 /src/*/__build__/
 __build__/**
 .webpack.json
+dist/
 
 # Doc #
 /doc/
