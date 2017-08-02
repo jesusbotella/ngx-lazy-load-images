@@ -50,6 +50,12 @@ export class LazyLoadingDirective {
     this.ngZone.runOutsideAngular(() => this.init());
   }
 
+  ngOnDestroy() {
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+    }
+  }
+
   registerIntersectionObserver() {
     this.intersectionObserver = new IntersectionObserver(
       images => images.forEach(image => this.onIntersectionChange(image)),
