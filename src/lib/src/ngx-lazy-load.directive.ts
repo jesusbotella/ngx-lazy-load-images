@@ -1,4 +1,5 @@
-import { Directive, ElementRef, Renderer2, Input } from '@angular/core';
+import { Directive, ElementRef, Renderer2, Input, NgZone } from '@angular/core';
+import 'intersection-observer';
 
 /**
  * Angular Lazy Loading Images Directive
@@ -15,54 +16,41 @@ import { Directive, ElementRef, Renderer2, Input } from '@angular/core';
  *
  * Example
  *
- * <div class="container" ngx-lazy-load>
+ * <div class="container" image-lazy-load>
  *  <img attr.data-src="img/logo.png">
  *  <div class="thumbnail" attr.data-background-src="{{ background_image }}"></div>
  * </div>
  */
 @Directive({
-  selector: '[ngx-lazy-load]' // Attribute selector
+  selector: '[image-lazy-load]' // Attribute selector
 })
 export class LazyLoadingDirective {
 
-  @Input('ngx-lazy-load') intersectionObserverConfig: Object;
+  @Input('image-lazy-load') intersectionObserverConfig: Object;
 
   intersectionObserverSupported: Boolean = false;
   intersectionObserver: IntersectionObserver;
   rootElement: HTMLElement;
-  renderer: Renderer2;
 
-  constructor(element: ElementRef, renderer: Renderer2) {
+  constructor(element: ElementRef, public renderer: Renderer2, public ngZone: NgZone) {
     this.intersectionObserverSupported = 'IntersectionObserver' in window;
     this.rootElement = element.nativeElement;
-    this.renderer = renderer;
   }
 
-  ngOnInit() {
+  init() {
     this.registerIntersectionObserver();
 
     this.observeDOMChanges(this.rootElement, () => {
       const imagesFoundInDOM = this.getAllImagesToLazyLoad(this.rootElement);
-
-      // Why can't I use rest operator instead forEach?
-      // this.intersectionObserver.observe(...imagesFoundInDOM);
-
-      imagesFoundInDOM.forEach((element: HTMLElement) => this.intersectionObserver.observe(element));
+      imagesFoundInDOM.forEach((image: HTMLElement) => this.intersectionObserver.observe(image));
     });
   }
 
+  ngOnInit() {
+    this.ngZone.runOutsideAngular(() => this.init());
+  }
+
   registerIntersectionObserver() {
-    if (!this.intersectionObserverSupported) {
-      // Load polyfill for unsupported Browsers
-      console.error('IntersectionObserver is not supported in this browser');
-
-      // Insection Observer Polyfill
-      // https://github.com/WICG/IntersectionObserver/tree/gh-pages/polyfill
-      // The browser hangs up when importing this code, don't know why
-
-      // https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver
-    }
-
     this.intersectionObserver = new IntersectionObserver(
       images => images.forEach(image => this.onIntersectionChange(image)),
       this.intersectionObserverConfig instanceof Object ? this.intersectionObserverConfig : undefined
@@ -89,14 +77,7 @@ export class LazyLoadingDirective {
   }
 
   getAllImagesToLazyLoad(pageNode: HTMLElement) {
-    let images = [];
-    let imagesToLazyLoad = pageNode.querySelectorAll('img[data-src], [data-background-src]');
-
-    for (let i = 0; i < imagesToLazyLoad.length; i++) {
-      images.push(imagesToLazyLoad[i]);
-    }
-
-    return images;
+    return Array.from(pageNode.querySelectorAll('img[data-src], [data-background-src]'));
   }
 
   onIntersectionChange(image: any) {
