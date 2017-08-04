@@ -1,83 +1,101 @@
-# ngx-lazy-load
+# ngx-lazy-load-images
 
-ngx-lazy-load is a image lazy load library for Angular 2+.
+ngx-lazy-load-images is a image lazy load library for Angular 2+.
 
-The library allows you to lazy load the images that your application/PWA contains using [MutationObserver](https://developer.mozilla.org/en/docs/Web/API/MutationObserver) and the praised [IntersectionObserver](https://developer.mozilla.org/en/docs/Web/API/IntersectionObserver). The images will be loaded as soon as they enter into the browser viewport, instead of loading them as soon as they are loaded.
+The library allows to lazy load images from your web application using the [MutationObserver](https://developer.mozilla.org/en/docs/Web/API/MutationObserver) and the [IntersectionObserver](https://developer.mozilla.org/en/docs/Web/API/IntersectionObserver). Images will be loaded as soon as they enter the viewport in a non-blocking way.
 
-It supports ```<img>``` tags as well as background images.
+It supports `<img>` tags as well as background images.
+
 
 ## Installation
 You can install the library via npm with this command:
 ```
-npm install npx-lazy-load
+npm install ngx-lazy-load-images --save
 ```
 
 
 ## Usage
-**1. Import the `LazyLoadModule`**:
 
-To use the library you need to import the LazyLoadModule in the module that you want to use the component in. You need to import `LazyLoadModule` from the `npx-lazy-load` package, and add it to `NgModule` imports.
+### 1. Import the `LazyLoadImagesModule`
+
+Import `LazyLoadImagesModule` from the `ngx-lazy-load-images` package, and add it to the `NgModule` imports array of your component.
 
 ```typescript
 import { NgModule } from '@angular/core';
-import { LazyLoadModule } from 'npx-lazy-load';
+import { LazyLoadImagesModule } from 'ngx-lazy-load-images';
 
 @NgModule({
-    imports: [
-        LazyLoadModule
-    ]
+  imports: [
+    LazyLoadImagesModule
+  ]
 })
-export class AppComponent { }
+export class AppComponent {}
 ```
 
-**2. Use the `image-lazy-load` directive:**
+### 2. Use the `lazy-load-images` directive
 
-The `image-lazy-load` directive should be used in the HTML/Component tag that will contain all of the image DOM nodes to lazy load:
+Add the `lazy-load-images` directive to the tag containing all the DOM image nodes to lazy load:
 
 ```html
-<div class="image-list" image-lazy-load>
+<!-- Image tags -->
+<div class="image-list" lazy-load-images>
   <img *ngFor="let imageUrl in images" [attr.data-src]="imageUrl">
+</div>
+
+<!-- Background images -->
+<div class="image-list" lazy-load-images>
+  <div *ngFor="let imageUrl in images" [attr.data-background-src]="imageUrl"></div>
 </div>
 ```
 
-It doesn't need to exclusively contain the image nodes, it can contain any HTML or component tag inside the directive HTML tag. But the less nodes inside the tag, the faster it will be.
+The container can have any HTML or components inside along with the images. But the less nodes inside the directive, the faster it will be.
 
-  - **Intersection Observer Configuration**
-    - In case you want to make some configuration changes to the intersection observer you can do it by passing an object to the `image-lazy-load` directive. The object takes the [Intersection Observer configuration parameters](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options) as keys.
-    <br />
-    ```html
-    <div class="image-list" [image-lazy-load]="{ rootMargin: '50px' }">
-    </div>
-    ```
+**Intersection Observer Configuration**
 
+If you want to make some configuration changes to the Intersection Observer, you can do it by passing an object to the `lazy-load-images` directive. The object takes the [Intersection Observer configuration parameters](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#Intersection_observer_options) as keys.
 
+  ```html
+  <div class="image-list" [lazy-load-images]="{ rootMargin: '50px' }"></div>
+  ```
 
-**3. Set the `data-src` or `data-background-src` attribute:**
+### 3. Set the `data-src` or `data-background-src` attribute
 
-We need to set `data-src` or `data-background-src` attribute in the images or backgrounds that we want to lazy load.
+Set the `data-src` or `data-background-src` attribute in the images or tags that you want to lazy load.
 
-The `data-src` attribute allow to lazy load images inside the img tags. You can use it by passing a variable to the attribute, interpolating a component variable into the attribute, or inserting a URL string in the attribute.
+The `data-src` attribute allows to lazy load images inside `<img>` tags. You can define it by passing a variable to the attribute, interpolating a variable, or inserting the URL directly:
+
 ```html
-  <img [attr.data-src]="imageUrlVariable">
-  <img attr.data-src="{{ imageUrlVariable }}">
-  <img attr.data-src="https://example.com/cute_kitten.jpg">
+<img [attr.data-src]="imageUrlVariable">
+<img attr.data-src="{{ imageUrlVariable }}">
+<img attr.data-src="https://example.com/cute_kitten.jpg">
 ```
 
-The `data-background-src` attribute lazy loads background images inside any HTML tag. You can use it like `data-src` attribute.
+The `data-background-src` attribute lazy loads background images inside any HTML tag. It works the same way as the `data-src` attribute:
+
 ```html
-  <div [attr.data-background-src]="imageUrlVariable"></div>
-  <div attr.data-background-src="{{ imageUrlVariable }}"></div>
-  <div attr.data-background-src="https://example.com/cute_kitten.jpg"></div>
+<div [attr.data-background-src]="imageUrlVariable"></div>
+<div attr.data-background-src="{{ imageUrlVariable }}"></div>
+<div attr.data-background-src="https://example.com/cute_kitten.jpg"></div>
 ```
 
-**4. Have fun  🎉**
+### 4. Have fun  🎉
+
+## Performance
+
+- Will this module make my web application worse in terms of performance?
+  - This module will make your app better in terms of overall and render performance, especially if it has a lot of images to show when the page is loaded. The images will be downloaded as soon as they appear in the viewport instead of all together. That means that your users will save network transfer data and the scroll will be less laggy.
+
+- What happens if I have lots of images, will it consume too much memory?
+  - The lifespan of the image observers is too short. It will only last until [the URL is set to the proper attribute, and destroyed right after that](https://github.com/jesusbotella/ngx-lazy-load-images/blob/master/lib/image-lazy-loading.directive.ts#L82). And if the directive is destroyed, [all the remaining image observers and the intersection observer instance will be disconnected](https://github.com/jesusbotella/ngx-lazy-load-images/blob/master/lib/image-lazy-loading.directive.ts#L38).
 
 
 ## Browser Compatibility
 
-The library has been tested and known to work in the latest version of all major browsers.
+This library has been tested and known to work in the latest version of all major browsers.
 
-However, the compatibility with older browsers is limited by the [`Mutation Observer` support](https://caniuse.com/#feat=mutationobserver), which is known to work from:
+The [WICG Intersection Observer Polyfill](https://github.com/WICG/IntersectionObserver/tree/gh-pages/polyfill) is bundled within the module to use the Intersection Observer API in the non-compatible browsers. Avoid importing it in your application too, as it may cause unexpected issues.
+
+However, the compatibility with older browsers is limited by the [`Mutation Observer` support](https://caniuse.com/#feat=mutationobserver), which is known to work in:
 
 <table>
   <tr>
@@ -111,3 +129,7 @@ However, the compatibility with older browsers is limited by the [`Mutation Obse
     </td>
   </tr>
 </table>
+
+## License
+
+MIT
