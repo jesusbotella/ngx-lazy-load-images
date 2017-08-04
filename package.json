@@ -7,8 +7,21 @@
   "es2015": "./ngx-lazy-load-images.js",
   "typings": "./ngx-lazy-load-images.d.ts",
   "author": "Jesús Botella",
+  "keywords": [
+    "lazy-loading",
+    "angular",
+    "angular2",
+    "angular4",
+    "intersection-observer",
+    "mutationobserver",
+    "lazy-load",
+    "images"
+  ],
   "license": "MIT",
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jesusbotella/ngx-lazy-load-images.git"
+  },
   "engines": {
     "node": ">= 6.9.0",
     "npm": ">= 3.0.0"
