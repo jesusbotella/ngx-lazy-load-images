@@ -86,7 +86,7 @@ The `data-background-src` attribute lazy loads background images inside any HTML
   - This module will make your app better in terms of overall and render performance, especially if it has a lot of images to show when the page is loaded. The images will be downloaded as soon as they appear in the viewport instead of all together. That means that your users will save network transfer data and the scroll will be less laggy.
 
 - What happens if I have lots of images, will it consume too much memory?
-  - The lifespan of the image observers is too short. It will only last until [the URL is set to the proper attribute, and destroyed right after that](https://github.com/jesusbotella/ngx-lazy-load-images/blob/master/lib/image-lazy-loading.directive.ts#L82). And if the directive is destroyed, [all the remaining image observers and the intersection observer instance will be disconnected](https://github.com/jesusbotella/ngx-lazy-load-images/blob/master/lib/image-lazy-loading.directive.ts#L38).
+  - The lifespan of the image observers is too short. It will only last until [the URL is set to the proper attribute, and destroyed right after that](https://github.com/jesusbotella/ngx-lazy-load-images/blob/master/src/lib/src/ngx-lazy-load-images.directive.ts#L82). And if the directive is destroyed, [all the remaining image observers and the intersection observer instance will be disconnected](https://github.com/jesusbotella/ngx-lazy-load-images/blob/master/src/lib/src/ngx-lazy-load-images.directive.ts#L38).
 
 
 ## Browser Compatibility
