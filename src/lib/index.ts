@@ -1,2 +1,2 @@
-export { LazyLoadingDirective } from './src/ngx-lazy-load.directive';
-export { LazyLoadModule } from './src/ngx-lazy-load.module';
+export { LazyLoadImagesDirective } from './src/ngx-lazy-load-images.directive';
+export { LazyLoadImagesModule } from './src/ngx-lazy-load-images.module';

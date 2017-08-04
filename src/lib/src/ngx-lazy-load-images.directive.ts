@@ -4,36 +4,21 @@ import 'intersection-observer';
 /**
  * Angular Lazy Loading Images Directive
  *
- * Directive to easily allow to lazy load the images
- * that your application/PWA contains using MutationObserver
- * and the praised IntersectionObserver.
- *
- * How does it work?
- *
- * You only need to include the directive in the container node
- * that holds all the images you want to lazy load. It supports
- * <img> tags, as well as background images in any HTML node.
- *
- * Example
- *
- * <div class="container" image-lazy-load>
- *  <img attr.data-src="img/logo.png">
- *  <div class="thumbnail" attr.data-background-src="{{ background_image }}"></div>
- * </div>
+ * The library allows to lazy load images from your web application
+ * using the MutationObserver and the IntersectionObserver. Images will be loaded as
+ * soon as they enter the viewport in a non-blocking way.
  */
 @Directive({
-  selector: '[image-lazy-load]' // Attribute selector
+  selector: '[lazy-load-images]'
 })
-export class LazyLoadingDirective {
+export class LazyLoadImagesDirective {
 
-  @Input('image-lazy-load') intersectionObserverConfig: Object;
+  @Input('lazy-load-images') intersectionObserverConfig: Object;
 
-  intersectionObserverSupported: Boolean = false;
   intersectionObserver: IntersectionObserver;
   rootElement: HTMLElement;
 
   constructor(element: ElementRef, public renderer: Renderer2, public ngZone: NgZone) {
-    this.intersectionObserverSupported = 'IntersectionObserver' in window;
     this.rootElement = element.nativeElement;
   }
 

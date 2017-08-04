@@ -15,8 +15,8 @@
     "annotateForClosureCompiler": true,
     "strictMetadataEmit": true,
     "skipTemplateCodegen": true,
-    "flatModuleOutFile": "ngx-lazy-load.js",
-    "flatModuleId": "ngx-lazy-load",
+    "flatModuleOutFile": "ngx-lazy-load-images.js",
+    "flatModuleId": "ngx-lazy-load-images",
     "genDir": "../../out-tsc/lib-gen-dir/"
   }
 }
