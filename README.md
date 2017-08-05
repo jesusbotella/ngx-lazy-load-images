@@ -67,7 +67,7 @@ The `data-src` attribute allows to lazy load images inside `<img>` tags. You can
 ```html
 <img [attr.data-src]="imageUrlVariable">
 <img attr.data-src="{{ imageUrlVariable }}">
-<img attr.data-src="https://example.com/cute_kitten.jpg">
+<img data-src="https://example.com/cute_kitten.jpg">
 ```
 
 The `data-background-src` attribute lazy loads background images inside any HTML tag. It works the same way as the `data-src` attribute:
@@ -75,7 +75,7 @@ The `data-background-src` attribute lazy loads background images inside any HTML
 ```html
 <div [attr.data-background-src]="imageUrlVariable"></div>
 <div attr.data-background-src="{{ imageUrlVariable }}"></div>
-<div attr.data-background-src="https://example.com/cute_kitten.jpg"></div>
+<div data-background-src="https://example.com/cute_kitten.jpg"></div>
 ```
 
 ### 4. Have fun  🎉
