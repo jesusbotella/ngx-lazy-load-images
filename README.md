@@ -1,4 +1,6 @@
 # ngx-lazy-load-images
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fjesusbotella%2Fngx-lazy-load-images.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fjesusbotella%2Fngx-lazy-load-images?ref=badge_shield)
+
 
 ngx-lazy-load-images is a image lazy load library for Angular 2+.
 
@@ -133,3 +135,6 @@ However, the compatibility with older browsers is limited by the [`Mutation Obse
 ## License
 
 MIT
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fjesusbotella%2Fngx-lazy-load-images.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fjesusbotella%2Fngx-lazy-load-images?ref=badge_large)
