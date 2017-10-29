@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file. See [standa
 <a name="1.0.4"></a>
 ## [1.0.4](https://github.com/jesusbotella/ngx-lazy-load-images/compare/1.0.3...1.0.4) (2017-10-13)
 
-
+* **Package.json:** Allow versions of @angular/core up to 5.0.0 in peerDependencies
 
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/jesusbotella/ngx-lazy-load-images/compare/1.0.2...1.0.3) (2017-08-29)
