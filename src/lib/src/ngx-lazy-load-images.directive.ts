@@ -1,5 +1,5 @@
-import { Directive, ElementRef, Renderer2, Input, NgZone } from '@angular/core';
-import 'intersection-observer';
+import { Directive, ElementRef, Renderer2, Input, NgZone, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 /**
  * Angular Lazy Loading Images Directive
@@ -18,8 +18,12 @@ export class LazyLoadImagesDirective {
   intersectionObserver: IntersectionObserver;
   rootElement: HTMLElement;
 
-  constructor(element: ElementRef, public renderer: Renderer2, public ngZone: NgZone) {
+  constructor(element: ElementRef, public renderer: Renderer2, public ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: any) {
     this.rootElement = element.nativeElement;
+  }
+
+  public get isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
   }
 
   init() {
@@ -32,7 +36,10 @@ export class LazyLoadImagesDirective {
   }
 
   ngOnInit() {
-    this.ngZone.runOutsideAngular(() => this.init());
+    if (this.isBrowser) {
+      require('intersection-observer');
+      this.ngZone.runOutsideAngular(() => this.init());
+    }
   }
 
   ngOnDestroy() {
