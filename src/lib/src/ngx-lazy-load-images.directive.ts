@@ -69,7 +69,7 @@ export class LazyLoadImagesDirective {
   }
 
   getAllImagesToLazyLoad(pageNode: HTMLElement) {
-    return Array.from(pageNode.querySelectorAll('img[data-src], [data-background-src]'));
+    return Array.from(pageNode.querySelectorAll('img[data-src], [data-srcset], [data-background-src]'));
   }
 
   onIntersectionChange(image: any) {
@@ -84,6 +84,11 @@ export class LazyLoadImagesDirective {
     if (image.dataset.src) {
       this.renderer.setAttribute(image, 'src', image.dataset.src);
       this.renderer.removeAttribute(image, 'data-src');
+    }
+
+    if (image.dataset.srcset) {
+      this.renderer.setAttribute(image, 'srcset', image.dataset.srcset);
+      this.renderer.removeAttribute(image, 'data-srcset');
     }
 
     if (image.dataset.backgroundSrc) {
