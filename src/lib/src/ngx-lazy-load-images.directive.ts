@@ -58,7 +58,8 @@ export class LazyLoadImagesDirective {
     const observerConfig = {
       attributes: true,
       characterData: true,
-      childList: true
+      childList: true,
+      subtree: true
     };
 
     // Observe Directive DOM Node
