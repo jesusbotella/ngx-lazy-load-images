@@ -18,34 +18,40 @@ export class LazyLoadImagesDirective {
   intersectionObserver: IntersectionObserver;
   rootElement: HTMLElement;
 
-  constructor(element: ElementRef, public renderer: Renderer2, public ngZone: NgZone, @Inject(PLATFORM_ID) private platformId: any) {
+  constructor(
+    element: ElementRef,
+    public renderer: Renderer2,
+    public ngZone: NgZone,
+    @Inject(PLATFORM_ID) private platformId: any) {
     this.rootElement = element.nativeElement;
-  }
-
-  public get isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
   }
 
   init() {
     this.registerIntersectionObserver();
-
+    
     this.observeDOMChanges(this.rootElement, () => {
       const imagesFoundInDOM = this.getAllImagesToLazyLoad(this.rootElement);
       imagesFoundInDOM.forEach((image: HTMLElement) => this.intersectionObserver.observe(image));
     });
   }
-
+  
   ngOnInit() {
-    if (this.isBrowser) {
-      require('intersection-observer');
-      this.ngZone.runOutsideAngular(() => this.init());
+    if (!this.isBrowser()) {
+      return;
     }
-  }
 
+    require('intersection-observer');
+    this.ngZone.runOutsideAngular(() => this.init());
+  }
+  
   ngOnDestroy() {
     if (this.intersectionObserver) {
       this.intersectionObserver.disconnect();
     }
+  }
+
+  isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
   }
 
   registerIntersectionObserver() {
