@@ -3,8 +3,6 @@
   "version": "1.2.0",
   "description": "Image lazy load library for Angular 2+.",
   "main": "./bundles/ngx-lazy-load-images.umd.min.js",
-  "module": "./ngx-lazy-load-images.es5.js",
-  "es2015": "./ngx-lazy-load-images.js",
   "typings": "./ngx-lazy-load-images.d.ts",
   "author": "Jesús Botella",
   "keywords": [
