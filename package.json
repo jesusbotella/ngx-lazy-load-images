@@ -28,9 +28,10 @@
     "npm": ">= 3.0.0"
   },
   "scripts": {
-    "clean": "rimraf out-tsc dist/*",
+    "clean": "rimraf build/out-tsc dist/*",
+    "build": "node build/index.js",
     "prebuild": "npm run clean",
-    "build": "node build.js",
+    "postbuild": "rimraf build/out-tsc",
     "lint": "tslint ./src/**/*.ts -t verbose",
     "release": "standard-version"
   },
@@ -38,28 +39,26 @@
     "@angular/core": ">=4.1.3"
   },
   "devDependencies": {
-    "@angular/common": "~5.0.0",
-    "@angular/compiler": "~5.0.0",
-    "@angular/compiler-cli": "~5.0.0",
-    "@angular/core": "~5.0.0",
-    "@angular/platform-browser": "~5.0.0",
-    "@angular/platform-browser-dynamic": "~5.0.0",
+    "@angular/common": "~4.1.3",
+    "@angular/compiler": "~4.1.3",
+    "@angular/compiler-cli": "~4.1.3",
+    "@angular/core": "~4.1.3",
+    "@angular/platform-browser": "~4.1.3",
+    "@angular/platform-browser-dynamic": "~4.1.3",
     "@types/node": "^6.0.46",
     "camelcase": "^4.0.0",
     "core-js": "^2.4.1",
     "glob": "^7.1.1",
     "intersection-observer": "^0.4.3",
     "rimraf": "^2.6.1",
-    "rollup": "^0.42.0",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-sourcemaps": "^0.4.1",
-    "rollup-plugin-uglify": "^2.0.1",
     "rxjs": "^5.0.1",
+    "source-map-loader": "^0.2.3",
     "standard-version": "^4.0.0",
     "systemjs": "^0.19.40",
     "tslint": "^4.4.2",
     "typescript": "~2.3.0",
+    "uglifyjs-webpack-plugin": "^1.1.4",
+    "webpack": "^3.10.0",
     "zone.js": "^0.8.4"
   }
 }
