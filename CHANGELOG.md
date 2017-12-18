@@ -1,6 +1,23 @@
-# CHANGELOG
+# Change Log
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/jesusbotella/ngx-lazy-load-images/compare/v1.1.0...v1.3.0) (2017-12-18)
+
+
+### Bug Fixes
+
+* Remove 'module' and 'es2015' props from package.json until I find a fix for compilation ([daeeef6](https://github.com/jesusbotella/ngx-lazy-load-images/commit/daeeef6))
+
+
+### Features
+
+* Add platform browser detection to make library compatible with Angular Universal ([6dad55c](https://github.com/jesusbotella/ngx-lazy-load-images/commit/6dad55c))
+* Add srcset option ([da3dd2c](https://github.com/jesusbotella/ngx-lazy-load-images/commit/da3dd2c))
+* Change build system from Rollup to Webpack ([75e119b](https://github.com/jesusbotella/ngx-lazy-load-images/commit/75e119b))
+
+
 
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/jesusbotella/ngx-lazy-load-images/compare/v1.1.0...v1.2.0) (2017-12-18)
