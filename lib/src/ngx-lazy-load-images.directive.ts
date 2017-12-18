@@ -1,6 +1,8 @@
 import { Directive, ElementRef, Renderer2, Input, NgZone, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
+declare var require: any;
+
 /**
  * Angular Lazy Loading Images Directive
  *

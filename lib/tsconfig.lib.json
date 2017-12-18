@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib-es2015/",
     "target": "es2015",
@@ -15,7 +15,6 @@
     "strictMetadataEmit": true,
     "skipTemplateCodegen": true,
     "flatModuleOutFile": "ngx-lazy-load-images.js",
-    "flatModuleId": "ngx-lazy-load-images",
-    "genDir": "../../out-tsc/lib-gen-dir/"
+    "flatModuleId": "ngx-lazy-load-images"
   }
 }
