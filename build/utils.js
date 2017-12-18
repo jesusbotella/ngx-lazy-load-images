@@ -1,3 +1,8 @@
+// Node Dependencies
+const fs = require('fs');
+const path = require('path');
+const glob = require('glob');
+
 // Recursively create a dir.
 function recursiveMkDir(dir) {
     if (!fs.existsSync(dir)) {
