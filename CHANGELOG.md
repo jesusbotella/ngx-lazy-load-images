@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/jesusbotella/ngx-lazy-load-images/compare/v1.3.0...v1.3.1) (2018-01-17)
+
+
+### Bug Fixes
+
+* Fire onChange callback to check current DOM nodes ([2ab8168](https://github.com/jesusbotella/ngx-lazy-load-images/commit/2ab8168))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/jesusbotella/ngx-lazy-load-images/compare/v1.1.0...v1.3.0) (2017-12-18)
 
