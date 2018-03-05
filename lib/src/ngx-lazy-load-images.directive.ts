@@ -9,8 +9,6 @@ import {
   Renderer2
 } from '@angular/core';
 
-import { WindowRef } from './window-ref.service';
-
 declare var require: any;
 
 /**
@@ -25,7 +23,6 @@ declare var require: any;
 })
 export class LazyLoadImagesDirective {
   @Input('lazy-load-images') intersectionObserverConfig: Object;
-
   intersectionObserver: IntersectionObserver;
   rootElement: HTMLElement;
 
@@ -33,8 +30,7 @@ export class LazyLoadImagesDirective {
     element: ElementRef,
     public renderer: Renderer2,
     public ngZone: NgZone,
-    @Inject(PLATFORM_ID) private platformId: any,
-    private window: WindowRef
+    @Inject(PLATFORM_ID) private platformId: any
   ) {
     this.rootElement = element.nativeElement;
   }
@@ -50,20 +46,11 @@ export class LazyLoadImagesDirective {
     });
   }
 
-  initFallback() {
-    const imagesFoundInDOM = this.getAllImagesToLazyLoad(this.rootElement);
-    imagesFoundInDOM.forEach(image => this.onImageAppearsInViewport(image));
-  }
-
   ngOnInit() {
     if (!this.isBrowser()) {
       return;
     }
-
-    if (!(this.window.getNativeWindow() as any).MutationObserver) {
-      return this.initFallback();
-    }
-
+    require('mutationobserver-shim');
     require('intersection-observer');
     this.ngZone.runOutsideAngular(() => this.init());
   }
@@ -127,21 +114,25 @@ export class LazyLoadImagesDirective {
   }
 
   onImageAppearsInViewport(image: any) {
-    if (image.dataset.src) {
-      this.renderer.setAttribute(image, 'src', image.dataset.src);
+    if (image.getAttribute('data-src')) {
+      this.renderer.setAttribute(image, 'src', image.getAttribute('data-src'));
       this.renderer.removeAttribute(image, 'data-src');
     }
 
-    if (image.dataset.srcset) {
-      this.renderer.setAttribute(image, 'srcset', image.dataset.srcset);
+    if (image.getAttribute('data-srcset')) {
+      this.renderer.setAttribute(
+        image,
+        'srcset',
+        image.getAttribute('data-srcset')
+      );
       this.renderer.removeAttribute(image, 'data-srcset');
     }
 
-    if (image.dataset.backgroundSrc) {
+    if (image.getAttribute('data-background-src')) {
       this.renderer.setStyle(
         image,
         'background-image',
-        `url(${image.dataset.backgroundSrc})`
+        `url(${image.getAttribute('data-background-src')})`
       );
       this.renderer.removeAttribute(image, 'data-background-src');
     }
