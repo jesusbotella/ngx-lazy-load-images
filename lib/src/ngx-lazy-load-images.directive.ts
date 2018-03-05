@@ -60,10 +60,7 @@ export class LazyLoadImagesDirective {
       return;
     }
 
-    if (
-      !(this.window.getNativeWindow() as any).IntersectionObserver ||
-      !(this.window.getNativeWindow() as any).MutationObserver
-    ) {
+    if (!(this.window.getNativeWindow() as any).MutationObserver) {
       return this.initFallback();
     }
 
