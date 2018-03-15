@@ -50,7 +50,6 @@ export class LazyLoadImagesDirective {
     if (!this.isBrowser()) {
       return;
     }
-    require('mutationobserver-shim');
     require('intersection-observer');
     this.ngZone.runOutsideAngular(() => this.init());
   }
