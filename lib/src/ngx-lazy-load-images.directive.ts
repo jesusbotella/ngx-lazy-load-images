@@ -30,13 +30,13 @@ export class LazyLoadImagesDirective {
 
   init() {
     this.registerIntersectionObserver();
-    
+
     this.observeDOMChanges(this.rootElement, () => {
-      const imagesFoundInDOM = this.getAllImagesToLazyLoad(this.rootElement);
-      imagesFoundInDOM.forEach((image: HTMLElement) => this.intersectionObserver.observe(image));
+      this.getAllImagesToLazyLoad(this.rootElement)
+          .forEach(this.onImageFound);
     });
   }
-  
+
   ngOnInit() {
     if (!this.isBrowser()) {
       return;
@@ -45,7 +45,7 @@ export class LazyLoadImagesDirective {
     require('intersection-observer');
     this.ngZone.runOutsideAngular(() => this.init());
   }
-  
+
   ngOnDestroy() {
     if (this.intersectionObserver) {
       this.intersectionObserver.disconnect();
@@ -86,6 +86,11 @@ export class LazyLoadImagesDirective {
     return observer;
   }
 
+  onImageFound(image: HTMLImageElement) {
+    this.setPlaceholderInElement(image);
+    this.intersectionObserver.observe(image);
+  }
+
   getAllImagesToLazyLoad(pageNode: HTMLElement) {
     return Array.from(pageNode.querySelectorAll('img[data-src], [data-srcset], [data-background-src]'));
   }
@@ -99,6 +104,18 @@ export class LazyLoadImagesDirective {
   }
 
   onImageAppearsInViewport(image: any) {
+    this.setImageInElement(image);
+
+    // Set loaded class
+    this.renderer.addClass(image, 'lazy-load-images__loaded');
+
+    // Stop observing the current target
+    if (this.intersectionObserver) {
+      this.intersectionObserver.unobserve(image);
+    }
+  }
+
+  setImageInElement(image: HTMLImageElement) {
     if (image.dataset.src) {
       this.renderer.setAttribute(image, 'src', image.dataset.src);
       this.renderer.removeAttribute(image, 'data-src');
@@ -113,10 +130,22 @@ export class LazyLoadImagesDirective {
       this.renderer.setStyle(image, 'background-image', `url(${image.dataset.backgroundSrc})`);
       this.renderer.removeAttribute(image, 'data-background-src');
     }
+  }
 
-    // Stop observing the current target
-    if (this.intersectionObserver) {
-      this.intersectionObserver.unobserve(image);
+  setPlaceholderInElement(image: HTMLImageElement) {
+    if (image.dataset.placeholderSrc) {
+      this.renderer.setAttribute(image, 'src', image.dataset.placeholderSrc);
+      this.renderer.removeAttribute(image, 'data-placeholder-src');
+    }
+
+    if (image.dataset.placeholderSrcset) {
+      this.renderer.setAttribute(image, 'srcset', image.dataset.placeholderSrcset);
+      this.renderer.removeAttribute(image, 'data-placeholder-srcset');
+    }
+
+    if (image.dataset.placeholderBackgroundSrc) {
+      this.renderer.setStyle(image, 'background-image', `url(${image.dataset.placeholderbackgroundSrc})`);
+      this.renderer.removeAttribute(image, 'data-placeholder-background-src');
     }
   }
 }
