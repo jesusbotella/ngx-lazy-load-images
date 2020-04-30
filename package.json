@@ -21,10 +21,6 @@
     "type": "git",
     "url": "https://github.com/jesusbotella/ngx-lazy-load-images.git"
   },
-  "engines": {
-    "node": ">= 6.9.0",
-    "npm": ">= 3.0.0"
-  },
   "scripts": {
     "clean": "rimraf build/out-tsc dist/*",
     "build": "node build/index.js",
@@ -37,26 +33,26 @@
     "@angular/core": ">=4.1.3"
   },
   "devDependencies": {
-    "@angular/common": "~4.1.3",
-    "@angular/compiler": "~4.1.3",
-    "@angular/compiler-cli": "~4.1.3",
-    "@angular/core": "~4.1.3",
-    "@angular/platform-browser": "~4.1.3",
-    "@angular/platform-browser-dynamic": "~4.1.3",
-    "@types/node": "^6.0.46",
-    "camelcase": "^4.0.0",
-    "core-js": "^2.4.1",
-    "glob": "^7.1.1",
-    "intersection-observer": "^0.4.3",
-    "rimraf": "^2.6.1",
-    "rxjs": "^5.0.1",
-    "source-map-loader": "^0.2.3",
-    "standard-version": "^4.0.0",
-    "systemjs": "^0.19.40",
-    "tslint": "^4.4.2",
-    "typescript": "~2.3.0",
-    "uglifyjs-webpack-plugin": "^1.1.4",
-    "webpack": "^3.10.0",
-    "zone.js": "^0.8.4"
+    "@angular/common": "~9.1.4",
+    "@angular/compiler": "~9.1.4",
+    "@angular/compiler-cli": "~9.1.4",
+    "@angular/core": "~9.1.4",
+    "@angular/platform-browser": "~9.1.4",
+    "@angular/platform-browser-dynamic": "~9.1.4",
+    "@types/node": "^13.13.4",
+    "camelcase": "^6.0.0",
+    "core-js": "^3.6.5",
+    "glob": "^7.1.6",
+    "intersection-observer": "^0.10.0",
+    "rimraf": "^3.0.2",
+    "rxjs": "^6.5.5",
+    "source-map-loader": "^0.2.4",
+    "standard-version": "^7.1.0",
+    "systemjs": "^6.3.1",
+    "tslint": "^6.1.2",
+    "typescript": "~3.8.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.43.0",
+    "zone.js": "^0.10.3"
   }
 }
