@@ -2,8 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [0.0.1](https://github.com/jesusbotella/ngx-lazy-load-images/compare/v1.3.1...v0.0.1) (2020-05-01)
-
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/jesusbotella/ngx-lazy-load-images/compare/v1.3.0...v1.3.1) (2018-01-17)
 
