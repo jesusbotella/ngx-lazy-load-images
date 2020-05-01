@@ -14,7 +14,6 @@ declare var require: any;
   selector: '[lazy-load-images]'
 })
 export class LazyLoadImagesDirective {
-
   @Input('lazy-load-images') intersectionObserverConfig: Object;
 
   intersectionObserver: IntersectionObserver;
@@ -30,13 +29,13 @@ export class LazyLoadImagesDirective {
 
   init() {
     this.registerIntersectionObserver();
-    
+
     this.observeDOMChanges(this.rootElement, () => {
       const imagesFoundInDOM = this.getAllImagesToLazyLoad(this.rootElement);
       imagesFoundInDOM.forEach((image: HTMLElement) => this.intersectionObserver.observe(image));
     });
   }
-  
+
   ngOnInit() {
     if (!this.isBrowser()) {
       return;
@@ -45,7 +44,7 @@ export class LazyLoadImagesDirective {
     require('intersection-observer');
     this.ngZone.runOutsideAngular(() => this.init());
   }
-  
+
   ngOnDestroy() {
     if (this.intersectionObserver) {
       this.intersectionObserver.disconnect();
