@@ -14,7 +14,7 @@ declare var require: any;
   selector: '[lazy-load-images]'
 })
 export class LazyLoadImagesDirective implements OnInit, OnDestroy {
-  @Input('lazy-load-images') intersectionObserverConfig: object;
+  @Input('lazy-load-images') intersectionObserverConfig: object | string;
 
   intersectionObserver: IntersectionObserver;
   rootElement: HTMLElement;
