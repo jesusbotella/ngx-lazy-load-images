@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/ngx-lazy-load-images",
       "sourceRoot": "projects/ngx-lazy-load-images/src",
-      "prefix": "lib",
+      "prefix": "lazy",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
