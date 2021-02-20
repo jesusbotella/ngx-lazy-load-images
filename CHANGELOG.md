@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/jesusbotella/ngx-lazy-load-images/compare/v1.3.1...v2.0.0) (2021-02-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* Support for Angular 9 and newer
+
+### Features
+
+* Support for Angular 9 and newer ([18b000e](https://github.com/jesusbotella/ngx-lazy-load-images/commit/18b000ecec7ef773ede5bef3831ea3cbc8a8054c))
+
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/jesusbotella/ngx-lazy-load-images/compare/v1.3.0...v1.3.1) (2018-01-17)
 
