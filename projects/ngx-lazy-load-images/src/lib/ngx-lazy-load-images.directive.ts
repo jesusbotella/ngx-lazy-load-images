@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2, Input, NgZone, Inject, PLATFORM_ID } from '@angular/core';
+import { Directive, ElementRef, Renderer2, Input, NgZone, Inject, PLATFORM_ID, OnInit, OnDestroy } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 declare var require: any;
@@ -13,9 +13,8 @@ declare var require: any;
 @Directive({
   selector: '[lazy-load-images]'
 })
-export class LazyLoadImagesDirective {
-
-  @Input('lazy-load-images') intersectionObserverConfig: Object;
+export class LazyLoadImagesDirective implements OnInit, OnDestroy {
+  @Input('lazy-load-images') intersectionObserverConfig: object | string;
 
   intersectionObserver: IntersectionObserver;
   rootElement: HTMLElement;
@@ -30,13 +29,13 @@ export class LazyLoadImagesDirective {
 
   init() {
     this.registerIntersectionObserver();
-    
+
     this.observeDOMChanges(this.rootElement, () => {
       const imagesFoundInDOM = this.getAllImagesToLazyLoad(this.rootElement);
       imagesFoundInDOM.forEach((image: HTMLElement) => this.intersectionObserver.observe(image));
     });
   }
-  
+
   ngOnInit() {
     if (!this.isBrowser()) {
       return;
@@ -45,7 +44,7 @@ export class LazyLoadImagesDirective {
     require('intersection-observer');
     this.ngZone.runOutsideAngular(() => this.init());
   }
-  
+
   ngOnDestroy() {
     if (this.intersectionObserver) {
       this.intersectionObserver.disconnect();
@@ -65,9 +64,9 @@ export class LazyLoadImagesDirective {
     return this.intersectionObserver;
   }
 
-  observeDOMChanges(rootElement: HTMLElement, onChange: Function) {
+  observeDOMChanges(rootElement: HTMLElement, onChange: () => void) {
     // Create a Mutation Observer instance
-    const observer = new MutationObserver(mutations => onChange(mutations));
+    const observer = new MutationObserver(() => onChange());
 
     // Observer Configuration
     const observerConfig = {
